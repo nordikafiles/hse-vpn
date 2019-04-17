@@ -4,7 +4,7 @@ SCRIPT_DIR="$(cd $(dirname $0) && pwd)"
 echo "Script dir: $SCRIPT_DIR"
 echo "Installing docker..."
 apt-get update
-apt-get install \
+apt-get install -y \
     apt-transport-https \
     ca-certificates \
     curl \
