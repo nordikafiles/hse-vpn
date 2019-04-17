@@ -1,3 +1,4 @@
+#!/bin/bash
 curl 'https://api.ipify.org' > external_ip.txt
 echo "Your ip is $(<external_ip.txt)"
 SCRIPT_DIR="$(cd $(dirname $0) && pwd)"
@@ -18,10 +19,10 @@ add-apt-repository \
    stable"
 apt-get update
 apt-get install -y docker-ce docker-ce-cli containerd.io
-ln -s "$SCRIPT_DIR/restart.sh" ./restart_openvpn
-ln -s "$SCRIPT_DIR/start.sh" ./start_openvpn
-ln -s "$SCRIPT_DIR/stop.sh" ./stop_openvpn
-ln -s "$SCRIPT_DIR/create_openvpn_user.sh" ./create_openvpn_user
+ln -s "$SCRIPT_DIR/restart.sh" /usr/bin/restart_openvpn
+ln -s "$SCRIPT_DIR/start.sh" /usr/bin/start_openvpn
+ln -s "$SCRIPT_DIR/stop.sh" /usr/bin/stop_openvpn
+ln -s "$SCRIPT_DIR/create_openvpn_user.sh" /usr/bin/create_openvpn_user
 
 docker run -v /root/ovpn-data:/etc/openvpn --log-driver=none --rm kylemanna/openvpn ovpn_genconfig -u "tcp://$(<external_ip.txt):443"
 docker run -v /root/ovpn-data:/etc/openvpn --log-driver=none --rm -it kylemanna/openvpn ovpn_initpki
