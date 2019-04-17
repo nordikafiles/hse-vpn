@@ -1,4 +1,6 @@
 # Simple OpenVPN Server Script
+### Requirements
+This script tested and works properly on **Ubuntu 18.04**
 ### Installation
 Run the following commands as root:
 ```bash
