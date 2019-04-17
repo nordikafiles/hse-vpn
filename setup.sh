@@ -17,8 +17,7 @@ add-apt-repository \
    $(lsb_release -cs) \
    stable"
 apt-get update
-apt-get install docker-ce docker-ce-cli containerd.io
-apt-get install -y docker-ce
+apt-get install -y docker-ce docker-ce-cli containerd.io
 ln -s "$SCRIPT_DIR/restart.sh" ./restart_openvpn
 ln -s "$SCRIPT_DIR/start.sh" ./start_openvpn
 ln -s "$SCRIPT_DIR/stop.sh" ./stop_openvpn
