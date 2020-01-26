@@ -1,5 +1,9 @@
 #!/bin/bash
-curl 'https://api.ipify.org' > external_ip.txt
+if [ -z "$EXTERNAL_IP" ]; then
+    curl 'https://api.ipify.org' > external_ip.txt
+else
+    echo $EXTERNAL_IP > external_ip.txt
+fi
 echo "Your ip is $(<external_ip.txt)"
 SCRIPT_DIR="$(cd $(dirname $0) && pwd)"
 echo "Script dir: $SCRIPT_DIR"
