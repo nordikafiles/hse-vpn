@@ -1,7 +1,9 @@
 #!/bin/bash
 if [ -z "$EXTERNAL_IP" ]; then
-    read -a EXTERNAL_IP -p "Enter external ip: "
+    EXTERNAL_IP=$(curl -s https://api.ipify.org)
 fi
+read -a input -p "Enter external ip [$EXTERNAL_IP]: "
+EXTERNAL_IP=${input:-$EXTERNAL_IP}
 echo "Your ip is $EXTERNAL_IP"
 SCRIPT_DIR="$(cd $(dirname $0) && pwd)"
 echo "Script dir: $SCRIPT_DIR"
