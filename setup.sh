@@ -5,8 +5,11 @@ fi
 read -a input -p "Enter external ip [$EXTERNAL_IP]: "
 EXTERNAL_IP=${input:-$EXTERNAL_IP}
 echo "Your ip is $EXTERNAL_IP"
+PORT="443"
+read -a input -p "Enter server port [$PORT]: "
+PORT=${input:-$PORT}
+
 SCRIPT_DIR="$(cd $(dirname $0) && pwd)"
-echo "Script dir: $SCRIPT_DIR"
 echo "Installing docker..."
 apt-get update
 apt-get install -y \
@@ -28,7 +31,13 @@ ln -s "$SCRIPT_DIR/start.sh" /usr/bin/start_openvpn
 ln -s "$SCRIPT_DIR/stop.sh" /usr/bin/stop_openvpn
 ln -s "$SCRIPT_DIR/create_openvpn_user.sh" /usr/bin/create_openvpn_user
 
-docker run -v /root/ovpn-data:/etc/openvpn --log-driver=none --rm kylemanna/openvpn ovpn_genconfig -u "tcp://$EXTERNAL_IP:443"
-docker run -v /root/ovpn-data:/etc/openvpn --log-driver=none --rm -it kylemanna/openvpn ovpn_initpki
+until docker run -v /root/ovpn-data:/etc/openvpn --log-driver=none --rm kylemanna/openvpn ovpn_genconfig -u "tcp://$EXTERNAL_IP:$PORT"
+do
+  echo "Try again"
+done
+until docker run -v /root/ovpn-data:/etc/openvpn --log-driver=none --rm -it kylemanna/openvpn ovpn_initpki
+do
+  echo "Try again"
+done
 
 docker run --name openvpn --restart always -v /root/ovpn-data:/etc/openvpn -d -p 443:1194 --cap-add=NET_ADMIN kylemanna/openvpn
