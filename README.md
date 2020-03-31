@@ -5,6 +5,8 @@ This script tested and works properly on **Ubuntu 18.04**
 Run the following commands as root:
 ```bash
 git clone https://github.com/nordikafiles/hse-vpn
+EXTERNAL_IP=<server_ip> ./hse-vpn/setup.sh
+# OR
 ./hse-vpn/setup.sh
 ```
 ### Usage
